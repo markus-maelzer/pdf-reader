@@ -7,6 +7,9 @@ const multer = require('multer');
 // expected to put pdf buffer as argument!
 const parsePdf = require('./parse-pdf');
 
+const storage = multer.memoryStorage()
+const upload = multer({ storage: storage })
+
 const port = process.env.PORT || 3001;
 const staticDir = path.join(__dirname, '../frontend/build')
 
@@ -14,8 +17,9 @@ app.use(express.static(staticDir));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
-app.post('/parse-pdf', (req, res) => {
-
+app.post('/parse-pdf', upload.single('pdf'), (req, res) => {
+  console.log(req.file);
+  console.log(req.files);
 })
 
 app.listen(port, () => {
