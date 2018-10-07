@@ -19,7 +19,13 @@ app.use(express.urlencoded({extended: true}));
 
 app.post('/parse-pdf', upload.single('pdf'), (req, res) => {
   console.log(req.file);
-  console.log(req.files);
+  // console.log(req.body);
+  parsePdf(req.file.buffer).then((data) => {
+    res.send(data);
+  }).catch((err) => {
+    console.log(err, 'err');
+    res.status(500).send('something caused an error please contact the one responsible')
+  })
 })
 
 app.listen(port, () => {

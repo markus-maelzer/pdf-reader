@@ -1,6 +1,7 @@
 const fs = require('fs');
 var pdfreader = require('pdfreader');
 
+// const handlePdf = (resolve, reject) =>
 
 const parsePdf = (pdf) => new Promise((resolve, reject) => {
   var rows = {}; // indexed by y-position
@@ -13,9 +14,8 @@ const parsePdf = (pdf) => new Promise((resolve, reject) => {
       content += (rows[y] || []).join('') + '\n';
     });
   }
-  new pdfreader.PdfReader().parseBuffer(pdf, handlePdf);
 
-  const handlePdf = (err, item) => {
+  new pdfreader.PdfReader().parseBuffer(pdf, (err, item) => {
     if(err) reject(err);
 
     if (!item || item.page || item.done) {
@@ -31,7 +31,8 @@ const parsePdf = (pdf) => new Promise((resolve, reject) => {
     if(item.done) {
       resolve(content);
     }
-  }
+  });
+
 })
 
 module.exports = parsePdf;

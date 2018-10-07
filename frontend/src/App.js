@@ -2,17 +2,22 @@ import React, { Component } from 'react';
 import ReactDropzone from 'react-dropzone';
 import axios from 'axios';
 
+import SlateEditor from './editor';
+
+
 class App extends Component {
   state = {
     uploadProgress: 0,
     accepted: [],
-    rejected: []
+    rejected: [],
+    text: null,
   }
 
   onDrop = (accepted, rejected) => {
+    console.log(accepted);
     this.setState({
-      accepted: [...this.state.accepted, ...accepted],
-      rejected:[...this.state.rejected, ...rejected]
+      accepted,
+      rejected
     });
   }
 
@@ -20,21 +25,31 @@ class App extends Component {
     // POST to a test endpoint for demo purposes
     const { accepted: files } = this.state;
     if(files.length === 0) return;
-    const data = new FormData();
-    var config = {
-      onUploadProgress: (progressEvent) => {
-        var percentCompleted = Math.round( (progressEvent.loaded * 100) / progressEvent.total );
-        this.setState({uploadProgress: percentCompleted})
-      }
-    };
 
     files.forEach(file => {
-      data.append('pdf', file);
-    });
+      var config = {
+        onUploadProgress: (progressEvent) => {
+          var percentCompleted = Math.round( (progressEvent.loaded * 100) / progressEvent.total );
+          this.setState({uploadProgress: percentCompleted})
+        }
+      };
 
-    axios.post('/parse-pdf', data, config).then((res) => {
-      console.log(res.data);
+      var formData = new FormData();
+      formData.append('pdf', file)
+      axios.post('/parse-pdf', formData, config).then((res) => {
+        console.log(res.data);
+        this.setState({
+          text: res.data
+        })
+      });
+
     });
+  }
+
+  renderEditor = () => {
+    if(this.state.text) {
+      return <SlateEditor text={this.state.text} />;
+    }
   }
 
   render() {
@@ -45,7 +60,9 @@ class App extends Component {
         </div>
         <div className="dropzone">
           <ReactDropzone
+            multiple={false}
             onDrop={this.onDrop}
+            accept="application/pdf"
           >
             drop your file here
           </ReactDropzone>
@@ -65,6 +82,7 @@ class App extends Component {
           </ul>
         </aside>
         <button onClick={this.handleSubmit}>Send</button>
+        {this.renderEditor()}
       </div>
     );
   }
