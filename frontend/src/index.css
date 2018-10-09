@@ -6,9 +6,88 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #f6cac9;
+}
+
+* {
+  position: relative;
+  box-sizing: border-box;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+.editor {
+  border: 2px solid #f5f9f9;
+  background-color: #f5f9f9;
+  padding: 24px 24px 24px;
+  margin: 0 auto;
+  width: 80%;
+  overflow: hidden;
+  height: 50vh;
+  border-radius: 6px;
+  box-shadow: 0px 0px 12px rgba(0,0,0,0.4);
+}
+.overflow-hidden {
+  height: 100%;
+  overflow-y: auto;
+}
+
+.app, .container {
+  transition: 0.3s;
+}
+
+.container {
+  height: 100vh;
+  width: 100%;
+}
+
+.bg-unicorn {
+  background-image: url('./images/unicorn_running.gif');
+  background-position: center;
+  background-size: auto;
+  background-repeat: no-repeat;
+}
+
+.bg-grey {
+  background-color: #f5f9f9;
+}
+
+body {
+  background: radial-gradient(200% 100% at bottom center, #f7f7b6, #e96f92, #75517d, #1b2947);
+  background: radial-gradient(220% 105% at top center, #1b2947 10%, #75517d 40%, #e96f92 65%, #f7f7b6);
+  background-attachment: fixed;
+  overflow: hidden;
+}
+
+@keyframes rotate {
+  0% {
+    transform: perspective(400px) rotateZ(20deg) rotateX(-40deg) rotateY(0);
+  }
+  100% {
+    transform: perspective(400px) rotateZ(20deg) rotateX(-40deg) rotateY(-360deg);
+  }
+}
+.stars {
+  transform: perspective(500px);
+  transform-style: preserve-3d;
+  position: absolute;
+  bottom: 0;
+  perspective-origin: 50% 100%;
+  left: 50%;
+  animation: rotate 90s infinite linear;
+}
+
+.star {
+  width: 2px;
+  height: 2px;
+  background: #F7F7B6;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-origin: 0 0 -300px;
+  transform: translate3d(0, 0, -300px);
+  backface-visibility: hidden;
 }

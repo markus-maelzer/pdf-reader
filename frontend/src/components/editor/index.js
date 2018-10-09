@@ -53,12 +53,14 @@ export default class SlateEditor extends Component {
     if(!this.state.value) return <div>loading</div>
     return (
       <div className="editor">
-        <Editor
-          value={this.state.value}
-          onChange={this.onChange}
-          onKeyDown={this.onKeyDown}
-          renderNode={this.renderNode}
-        />
+        <div className="overflow-hidden">
+          <Editor
+            value={this.state.value}
+            onChange={this.onChange}
+            onKeyDown={this.onKeyDown}
+            renderNode={this.renderNode}
+          />
+        </div>
       </div>
     )
   }
