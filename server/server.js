@@ -10,7 +10,7 @@ const parsePdf = require('./parse-pdf');
 const storage = multer.memoryStorage()
 const upload = multer({ storage: storage })
 
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 3005;
 const staticDir = path.join(__dirname, '../frontend/build')
 
 app.use(express.static(staticDir));
@@ -18,12 +18,12 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
 app.post('/parse-pdf', upload.single('pdf'), (req, res) => {
-  console.log(req.file);
-  // console.log(req.body);
+  var { originalname } = req.file;
+  console.log(`parsing: ${originalname}`);
+
   parsePdf(req.file.buffer).then((data) => {
     res.send(data);
   }).catch((err) => {
-    console.log(err, 'err');
     res.status(500).send('something caused an error please contact the one responsible')
   })
 })
