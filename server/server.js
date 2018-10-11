@@ -10,7 +10,7 @@ const parsePdf = require('./parse-pdf');
 const storage = multer.memoryStorage()
 const upload = multer({ storage: storage })
 
-const port = process.env.PORT || 3005;
+const port = process.env.PORT || 3001;
 const staticDir = path.join(__dirname, '../frontend/build')
 
 app.use(express.static(staticDir));
