@@ -7,6 +7,7 @@ const parsePdf = (pdf) => new Promise((resolve, reject) => {
   var rows = {}; // indexed by y-position
   let content = '';
 
+
   function printRows() {
     Object.keys(rows)
     .sort((y1, y2) => parseFloat(y1) - parseFloat(y2))
@@ -32,7 +33,28 @@ const parsePdf = (pdf) => new Promise((resolve, reject) => {
       resolve(content);
     }
   });
-
 })
 
 module.exports = parsePdf;
+
+// for info on changing the module:
+// in file: PdfReader.js
+// function forEachItem(pdf, handler){
+//   var pageNumber = 0;
+//   for (var p in pdf.data.Pages) {
+//     var page = pdf.data.Pages[p];
+//     var number = ++pageNumber;
+//     handler(null, {
+//       page: number,
+//       width: pdf.data.Width,
+//       height:pdf.data.Pages[number-1].Height
+//     });
+//     for (var t in page.Texts) {
+//       var item = page.Texts[t];
+//       item.text = decodeURIComponent(item.R[0].T);
+//       handler(null, item);
+//     }
+//   }
+//   actual change
+//   handler(null, {done: true});
+// }
